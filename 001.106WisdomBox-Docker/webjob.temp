@@ -1,0 +1,2 @@
+docker container run -it --name BoxWebJob -h BoxWebJob -p 810:80 -v /mnt/Data/WisdomBox/0307/webjob:/app --network Box boxwebjob:v0308t bash
+

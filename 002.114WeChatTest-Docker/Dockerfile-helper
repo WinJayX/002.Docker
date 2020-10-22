@@ -1,0 +1,12 @@
+FROM microsoft/dotnet
+MAINTAINER WinJayX <WinJayX@Gmail.com>
+LABEL description="This is a dotnet image"
+LABEL version="1.0"
+USER root
+
+WORKDIR /app
+
+#COPY . /app/
+
+EXPOSE 80
+ENTRYPOINT ["dotnet", "HelperWeb.dll"]

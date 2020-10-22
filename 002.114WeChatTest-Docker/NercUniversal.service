@@ -1,0 +1,12 @@
+[Unit]
+Description=nerc dotnet service
+
+[Service]
+Type=simple
+StartLimitIntervalSec=0
+Restart=always
+RestartSec=1
+ExecStart=/usr/bin/dotnet /usr/local/src/NERC.UniversalColleges.Test/Nerc.UniversalColleges.FrontEnd.dll
+
+[Install]
+WantedBy=multi-user.target

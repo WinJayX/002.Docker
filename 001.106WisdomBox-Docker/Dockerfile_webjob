@@ -1,0 +1,14 @@
+FROM harbor.nercoa.com/winjay/dotnet:v2.2.207
+MAINTAINER WinJayX <WinJayX@Gmail.com>
+LABEL description="2020.03.07 Demo"
+LABEL version="1.0"
+USER root
+
+WORKDIR /app
+
+#将当前目录下的文件，复制到WORKDIR目录,适用于打包整个项目及DockerFile在一个包中的情况。
+#如果有创建数据卷则需要运行时src=VolumeName,dst=/app挂载。
+RUN apt-get update -y && apt-get upgrade -y
+
+#项目变更时，注意修改.dll文件名称
+ENTRYPOINT ["dotnet", "Nerc.TaskScheduler.ServiceBus.dll", "daemon off;"]

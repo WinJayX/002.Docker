@@ -1,0 +1,1 @@
+docker container  run -d --name helper -h NercHelper -p 9696:80 --mount type=bind,src=/usr/local/src/helper,dst=/app helper:v1.0
