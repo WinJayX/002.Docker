@@ -21,3 +21,18 @@ WORKDIR /app
 
 #项目变更时，注意修改.dll文件名称
 ENTRYPOINT ["dotnet", "Cultivite.dll"]
+
+
+#=======2=======#
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+MAINTAINER WinJayX <WinJayX@Gmail.com>
+LABEL description="This is .NetCore Test Project"
+LABEL version="1.0"
+USER root
+### 对连接sqlServer协议进行降级
+RUN sed -i 's/TLSv1.2/TLSv1.0/g' /etc/ssl/openssl.cnf
+WORKDIR /app               
+
+COPY . /app
+ENV ASPNETCORE_ENVIRONMENT Development
+ENTRYPOINT ["dotnet", "${MAIN_PROGRAM}"]
