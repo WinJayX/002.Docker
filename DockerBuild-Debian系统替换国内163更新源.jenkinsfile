@@ -1,0 +1,38 @@
+/*  MAINTAINER WinJayX <WinJayX@Gmail.com>
+ *  Debian系统替换国内163更新源
+ */
+
+stage('Build And Push Image') {
+    node('Container') { 
+sh '''
+REPOSITORY=hub.nercoa.com/case-center/web:${ImageTag}
+cat > Dockerfile << EOF
+FROM mcr.microsoft.com/dotnet/aspnet
+MAINTAINER WinJayX <WinJayX@Gmail.com>
+LABEL description="This is FZ_CaseCenter_Web Project"
+LABEL version="5.0.7"
+USER root
+
+RUN echo 'deb http://mirrors.163.com/debian/ buster main non-free contrib\\r\\ndeb http://mirrors.163.com/debian/ buster-updates main non-free contrib\\r\\ndeb http://mirrors.163.com/debian/ buster-backports main non-free contrib\\r\\ndeb-src http://mirrors.163.com/debian/ buster main non-free contrib\\r\\ndeb-src http://mirrors.163.com/debian/ buster-updates main non-free contrib\\r\\ndeb-src http://mirrors.163.com/debian/ buster-backports main non-free contrib\\r\\ndeb http://mirrors.163.com/debian-security/ buster/updates main non-free contrib\\r\\ndeb-src http://mirrors.163.com/debian-security/ buster/updates main non-free contrib\\r\\n' > /etc/apt/sources.list
+
+RUN cat /etc/apt/sources.list
+
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get install libgdiplus -y && ln -s libgdiplus.so gdiplus.dll
+RUN ln -s /lib/x86_64-linux-gnu/libdl-2.24.so /lib/x86_64-linux-gnu/libdl.so
+### 对连接sqlServer协议进行降级 
+RUN sed -i 's/TLSv1.2/TLSv1.0/g' /etc/ssl/openssl.cnf
+
+WORKDIR /app
+COPY . /app/
+ENTRYPOINT ["dotnet", "NERC.ClassTeacherCaseLibrary.FrontEnd.dll"]
+EOF
+
+
+
+docker build -t $REPOSITORY .
+docker login hub.nercoa.com -u {YouUserName} -p {YouPassword}
+docker push $REPOSITORY
+'''
+    }
+}
