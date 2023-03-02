@@ -21,15 +21,15 @@ services:
                 -Dencryption.cipherAlgorithm=DESede/CBC/PKCS5Padding
                 -Dencryption.keyAlgorithm=DESede
                 -Dencryption.keystore.location=/usr/local/tomcat/shared/classes/alfresco/extension/keystore/keystore
-                -Dmetadata-keystore.password=mp6yc0UD9e
+                -Dmetadata-keystore.password=$(YourPassoword)
                 -Dmetadata-keystore.aliases=metadata
-                -Dmetadata-keystore.metadata.password=oKIWzVdEdA
+                -Dmetadata-keystore.metadata.password=$(YourPassoword)
                 -Dmetadata-keystore.metadata.algorithm=DESede
                 "
             JAVA_OPTS: "
                 -Ddb.driver=org.postgresql.Driver
                 -Ddb.username=alfresco
-                -Ddb.password=alfresco
+                -Ddb.password=$(YourPassoword)
                 -Ddb.url=jdbc:postgresql://postgres:5432/alfresco
                 -Dsolr.host=solr6
                 -Dsolr.port=8983
